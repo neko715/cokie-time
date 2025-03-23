@@ -1,168 +1,234 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Clicker 時間計算</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f8f8;
-        }
-        h2 {
-            color: #444;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #555;
-        }
-        input {
-            padding: 10px;
-            width: 200px;
-            text-align: right;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            transition: 0.2s;
-        }
-        input:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-        }
-        button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            font-size: 1em;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        #result {
-            font-size: 1.4em;
-            margin-top: 15px;
-            color: #333;
-            font-weight: bold;
-        }
-        #info {
-            margin-top: 25px;
-            font-size: 1em;
-            text-align: left;
-            background: #f4f4f4;
-            padding: 15px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-        .code {
-            background-color: #e9ecef;
-            padding: 4px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Clicker 時間計算</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f8f8f8;
+    }
+    h2 {
+      color: #444;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #555;
+    }
+    input {
+      padding: 10px;
+      width: 200px;
+      text-align: right;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #result {
+      font-size: 1.4em;
+      margin-top: 15px;
+      color: #333;
+      font-weight: bold;
+    }
+    #info {
+      margin-top: 25px;
+      font-size: 1em;
+      text-align: left;
+      background: #f4f4f4;
+      padding: 15px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .code {
+      background-color: #e9ecef;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
 </head>
 <body>
-    <h2>🍪 Cookie Clicker 時間計算 🍪</h2>
-    
-    <div class="container">
-        <label>現在のクッキー数:</label>
-        <input type="text" id="currentCookies" placeholder="100m"><br>
+  <h2>🍪 Cookie Clicker 時間計算 🍪</h2>
+  
+  <div class="container">
+    <label>現在のクッキー数:</label>
+    <input type="text" id="currentCookies" placeholder="100m"><br>
 
-        <label>CPS (毎秒クッキー数):</label>
-        <input type="text" id="cps" placeholder="50,000"><br>
+    <label>CPS (毎秒クッキー数):</label>
+    <input type="text" id="cps" placeholder="50,000"><br>
 
-        <label>目標クッキー数:</label>
-        <input type="text" id="targetCookies" placeholder="1b"><br>
+    <label>目標クッキー数:</label>
+    <input type="text" id="targetCookies" placeholder="1b"><br>
 
-        <button onclick="calculateTime()">計算</button>
+    <button onclick="calculateTime()">計算</button>
+    <button onclick="resetCalculation()">リセット</button>
 
-        <p id="result">時間: 0秒</p>
-    </div>
+    <p id="result">時間: 0秒</p>
+  </div>
 
-    <div id="info">
-        <h3> 対応している単位と入力方法 </h3>
-        <ul>
-            <li><span class="code">1m</span> = 1million</li>
-            <li><span class="code">1b</span> = 1billion</li>
-            <li><span class="code">1t</span> = 1trillion</li>
-            <li><span class="code">1q</span> = 1quadrillion</li>
-        </ul>
-        <p>カンマ (<span class="code">,</span>) が入っていてもOK！</p>
-        <p>例: <span class="code">520m</span>, <span class="code">87,909</span>, <span class="code">5.1b</span></p>
-    </div>
+  <div id="info">
+    <h3> 対応している単位と入力方法 </h3>
+    <ul>
+      <li><span class="code">1m</span> = 1million</li>
+      <li><span class="code">1b</span> = 1billion</li>
+      <li><span class="code">1t</span> = 1trillion</li>
+      <li><span class="code">1q</span> = 1quadrillion</li>
+    </ul>
+    <p>カンマ (<span class="code">,</span>) が入っていてもOK！</p>
+    <p>例: <span class="code">520m</span>, <span class="code">87,909</span>, <span class="code">5.1b</span></p>
+  </div>
 
-    <script>
-        function parseCookies(value) {
-            value = value.toLowerCase().trim().replace(/,/g, ""); // カンマ削除
-            let num = parseFloat(value);
-            if (isNaN(num)) return NaN;
+  <script>
+    let timer = null;
+    let simulatedCurrent = 0;
 
-            if (value.includes("q")) return num * 1e15; // quadrillion
-            if (value.includes("t")) return num * 1e12; // trillion
-            if (value.includes("b")) return num * 1e9;  // billion
-            if (value.includes("m")) return num * 1e6;  // million
+    // localStorage から値を復元する関数
+    function loadSavedValues() {
+      const currentSaved = localStorage.getItem("currentCookies");
+      const cpsSaved = localStorage.getItem("cps");
+      const targetSaved = localStorage.getItem("targetCookies");
 
-            return num;
+      if (currentSaved) document.getElementById("currentCookies").value = currentSaved;
+      if (cpsSaved) document.getElementById("cps").value = cpsSaved;
+      if (targetSaved) document.getElementById("targetCookies").value = targetSaved;
+    }
+
+    // 入力内容が変更されたら localStorage に保存する関数
+    function saveInputValues() {
+      localStorage.setItem("currentCookies", document.getElementById("currentCookies").value);
+      localStorage.setItem("cps", document.getElementById("cps").value);
+      localStorage.setItem("targetCookies", document.getElementById("targetCookies").value);
+    }
+
+    // 各入力欄にイベントリスナーを追加
+    document.getElementById("currentCookies").addEventListener("input", saveInputValues);
+    document.getElementById("cps").addEventListener("input", saveInputValues);
+    document.getElementById("targetCookies").addEventListener("input", saveInputValues);
+
+    function parseCookies(value) {
+      value = value.toLowerCase().trim().replace(/,/g, ""); // カンマ削除
+      let num = parseFloat(value);
+      if (isNaN(num)) return NaN;
+
+      if (value.includes("q")) return num * 1e15; // quadrillion
+      if (value.includes("t")) return num * 1e12; // trillion
+      if (value.includes("b")) return num * 1e9;  // billion
+      if (value.includes("m")) return num * 1e6;  // million
+
+      return num;
+    }
+
+    function formatCookies(value) {
+      if (value >= 1e15) return (value / 1e15).toFixed(2) + " quadrillion 枚";
+      if (value >= 1e12) return (value / 1e12).toFixed(2) + " trillion 枚";
+      if (value >= 1e9) return (value / 1e9).toFixed(2) + " billion 枚";
+      if (value >= 1e6) return (value / 1e6).toFixed(2) + " million 枚";
+      return value.toLocaleString() + " 枚"; // 3桁カンマ表示
+    }
+
+    function formatTime(seconds) {
+      let days = Math.floor(seconds / 86400);
+      let hours = Math.floor((seconds % 86400) / 3600);
+      let minutes = Math.floor((seconds % 3600) / 60);
+      let secs = Math.floor(seconds % 60);
+
+      let timeString = "";
+      if (days > 0) timeString += `${days}日 `;
+      if (hours > 0 || days > 0) timeString += `${hours}時間 `;
+      if (minutes > 0 || hours > 0 || days > 0) timeString += `${minutes}分 `;
+      timeString += `${secs}秒`;
+
+      return timeString;
+    }
+
+    function calculateTime() {
+      // 既にタイマーが動いていたらリセット
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+
+      let current = parseCookies(document.getElementById("currentCookies").value || document.getElementById("currentCookies").placeholder);
+      let cps = parseCookies(document.getElementById("cps").value || document.getElementById("cps").placeholder);
+      let target = parseCookies(document.getElementById("targetCookies").value || document.getElementById("targetCookies").placeholder);
+
+      if (isNaN(current) || isNaN(cps) || isNaN(target) || cps <= 0) {
+        document.getElementById("result").innerText = "正しい数値を入力してください";
+        return;
+      }
+
+      if (target <= current) {
+        document.getElementById("result").innerText = "目標クッキー数は現在のクッキー数より大きい必要があります";
+        return;
+      }
+
+      simulatedCurrent = current;
+      
+      timer = setInterval(function(){
+        simulatedCurrent += cps; // 毎秒 cps 分のクッキーを加算
+        if (simulatedCurrent >= target) {
+          simulatedCurrent = target;
+          document.getElementById("result").innerText = "時間: 0日 0時間 0分 0秒 (0 枚 必要)";
+          clearInterval(timer);
+          timer = null;
+        } else {
+          let remaining = target - simulatedCurrent;
+          let timeLeft = remaining / cps;
+          document.getElementById("result").innerText = `時間: ${formatTime(timeLeft)} (${formatCookies(remaining)} 必要)`;
         }
+      }, 1000);
+    }
 
-        function formatCookies(value) {
-            if (value >= 1e15) return (value / 1e15).toFixed(2) + " quadrillion 枚";
-            if (value >= 1e12) return (value / 1e12).toFixed(2) + " trillion 枚";
-            if (value >= 1e9) return (value / 1e9).toFixed(2) + " billion 枚";
-            if (value >= 1e6) return (value / 1e6).toFixed(2) + " million 枚";
-            return value.toLocaleString() + " 枚"; // 3桁カンマ表示
-        }
+    function resetCalculation() {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+      simulatedCurrent = 0;
+      document.getElementById("result").innerText = "時間: 0秒";
+      // 入力欄をクリア
+      document.getElementById("currentCookies").value = "";
+      document.getElementById("cps").value = "";
+      document.getElementById("targetCookies").value = "";
+      // localStorage もクリア
+      localStorage.removeItem("currentCookies");
+      localStorage.removeItem("cps");
+      localStorage.removeItem("targetCookies");
+    }
 
-        function formatTime(seconds) {
-            let days = Math.floor(seconds / 86400);
-            let hours = Math.floor((seconds % 86400) / 3600);
-            let minutes = Math.floor((seconds % 3600) / 60);
-            let secs = Math.floor(seconds % 60);
-
-            let timeString = "";
-            if (days > 0) timeString += `${days}日 `;
-            if (hours > 0 || days > 0) timeString += `${hours}時間 `;
-            if (minutes > 0 || hours > 0 || days > 0) timeString += `${minutes}分 `;
-            timeString += `${secs}秒`;
-
-            return timeString;
-        }
-
-        function calculateTime() {
-            let current = parseCookies(document.getElementById("currentCookies").value || document.getElementById("currentCookies").placeholder);
-            let cps = parseCookies(document.getElementById("cps").value || document.getElementById("cps").placeholder);
-            let target = parseCookies(document.getElementById("targetCookies").value || document.getElementById("targetCookies").placeholder);
-
-            if (isNaN(current) || isNaN(cps) || isNaN(target) || cps <= 0) {
-                document.getElementById("result").innerText = "正しい数値を入力してください";
-                return;
-            }
-
-            let time = (target - current) / cps;
-
-            if (time < 0) {
-                document.getElementById("result").innerText = "目標クッキー数は現在のクッキー数より大きい必要があります";
-            } else {
-                document.getElementById("result").innerText = `時間: ${formatTime(time)} (${formatCookies(target - current)} 必要)`;
-            }
-        }
-    </script>
+    // ページ読み込み時に localStorage から値を復元
+    window.onload = loadSavedValues;
+  </script>
 </body>
 </html>
