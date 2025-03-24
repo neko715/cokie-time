@@ -61,6 +61,11 @@
       color: #333;
       font-weight: bold;
     }
+    #currentStatus {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #333;
+    }
     #info {
       margin-top: 25px;
       font-size: 1em;
@@ -95,6 +100,7 @@
     <button onclick="resetCalculation()">リセット</button>
 
     <p id="result">時間: 0秒</p>
+    <p id="currentStatus">現在のクッキー: 0枚</p>
   </div>
 
   <div id="info">
@@ -200,12 +206,14 @@
         if (simulatedCurrent >= target) {
           simulatedCurrent = target;
           document.getElementById("result").innerText = "時間: 0日 0時間 0分 0秒 (0 枚 必要)";
+          document.getElementById("currentStatus").innerText = `現在のクッキー: ${formatCookies(simulatedCurrent)}`;
           clearInterval(timer);
           timer = null;
         } else {
           let remaining = target - simulatedCurrent;
           let timeLeft = remaining / cps;
           document.getElementById("result").innerText = `時間: ${formatTime(timeLeft)} (${formatCookies(remaining)} 必要)`;
+          document.getElementById("currentStatus").innerText = `現在のクッキー: ${formatCookies(simulatedCurrent)}`;
         }
       }, 1000);
     }
@@ -217,6 +225,7 @@
       }
       simulatedCurrent = 0;
       document.getElementById("result").innerText = "時間: 0秒";
+      document.getElementById("currentStatus").innerText = "現在のクッキー: 0枚";
       // 入力欄をクリア
       document.getElementById("currentCookies").value = "";
       document.getElementById("cps").value = "";
